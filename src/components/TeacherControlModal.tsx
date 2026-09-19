@@ -418,7 +418,7 @@ export const TeacherControlModal: React.FC<TeacherControlModalProps> = ({
               <div>
                 <h4 className="font-bold text-white text-base">교사 / 관리자 비밀번호 변경</h4>
                 <p className="text-xs text-slate-400 mt-1">
-                  현재 등록된 암호: <span className="text-amber-300 font-bold">{adminPin}</span>
+                  안전한 학급 관리를 위해 선생님 전용 비밀번호를 설정해주세요.
                 </p>
               </div>
 

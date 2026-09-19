@@ -3,6 +3,7 @@ import { Users, TableCellsSplit, Key, ShieldCheck, Wifi, WifiOff } from 'lucide-
 import { Student, StudentTasks, TaskDescriptions, AppServerData } from './types';
 import {
   fetchAppData,
+  getLocalData,
   updateStudent,
   addStudent,
   deleteStudentApi,
@@ -10,6 +11,7 @@ import {
   resetAllTasksApi,
   updateSettingsApi,
 } from './utils/api';
+import { DEFAULT_ADMIN_PIN, DEFAULT_DESCRIPTIONS } from './data/defaultData';
 import { Header } from './components/Header';
 import { StudentCard, getCompletedTaskCount } from './components/StudentCard';
 import { MatrixView } from './components/MatrixView';
@@ -22,16 +24,12 @@ import { QrModal } from './components/QrModal';
 import { ToastModal } from './components/ToastModal';
 
 export default function App() {
-  const [students, setStudents] = useState<Student[]>([]);
-  const [adminPin, setAdminPin] = useState('1156');
-  const [taskDescriptions, setTaskDescriptions] = useState<TaskDescriptions>({
-    weekHeader: '이번 주 과제 수행 현황',
-    korean: '📌 목표: 일주일에 정해진 주제 글쓰기 1편 완성하기',
-    career: '📌 주간 목표: 이번 주 나의 꿈과 직업 탐색 글 작성하기',
-    math: '📌 단원 목표: 지정 범위 수학 문제 해결하기',
-    pengtalk: '📌 단원 목표: 이번 단원 AI 말하기 미션 달성하기',
-    engpaper: '📌 목표: 월~금 요일별 1장씩 풀고 체크하기',
-  });
+  const initialData = getLocalData();
+  const [students, setStudents] = useState<Student[]>(initialData.students);
+  const [adminPin, setAdminPin] = useState(initialData.adminPin || DEFAULT_ADMIN_PIN);
+  const [taskDescriptions, setTaskDescriptions] = useState<TaskDescriptions>(
+    initialData.taskDescriptions || DEFAULT_DESCRIPTIONS
+  );
 
   const [currentView, setCurrentView] = useState<'students' | 'matrix'>('students');
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
@@ -66,8 +64,12 @@ export default function App() {
     if (showSyncIndicator) setIsSyncing(true);
     try {
       const data: AppServerData = await fetchAppData();
-      setStudents(data.students || []);
-      setAdminPin(data.adminPin || '1156');
+      if (data.students && data.students.length > 0) {
+        setStudents(data.students);
+      }
+      if (data.adminPin) {
+        setAdminPin(data.adminPin);
+      }
       if (data.taskDescriptions) {
         setTaskDescriptions(data.taskDescriptions);
       }

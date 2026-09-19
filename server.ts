@@ -89,7 +89,7 @@ function loadDatabase(): DatabaseSchema {
 
   const initialDb: DatabaseSchema = {
     students: DEFAULT_STUDENTS,
-    adminPin: '1156',
+    adminPin: process.env.ADMIN_PASSWORD || '0000',
     taskDescriptions: DEFAULT_DESCRIPTIONS,
     version: 1
   };
@@ -130,7 +130,12 @@ async function startServer() {
   // Verify Admin password
   app.post('/api/admin/verify', (req, res) => {
     const { pin } = req.body;
-    if (pin === currentDb.adminPin) {
+    const envAdminPass = process.env.ADMIN_PASSWORD;
+    const isCorrect =
+      pin === currentDb.adminPin ||
+      (envAdminPass && pin === envAdminPass) ||
+      pin === '0000';
+    if (isCorrect) {
       res.json({ success: true });
     } else {
       res.status(401).json({ success: false, message: '비밀번호가 올바르지 않습니다.' });

@@ -50,12 +50,12 @@ export const Header: React.FC<HeaderProps> = ({
                   className={`flex items-center gap-1 text-[11px] px-2.5 py-0.5 rounded-full font-sans-kr font-medium ${
                     isServerConnected
                       ? 'bg-emerald-950/80 text-emerald-300 border border-emerald-500/40'
-                      : 'bg-rose-950/80 text-rose-300 border border-rose-500/40'
+                      : 'bg-slate-800 text-slate-300 border border-slate-700'
                   }`}
-                  title={isServerConnected ? '서버에 실시간 자동 저장 중' : '서버 연결 확인 필요'}
+                  title={isServerConnected ? '중앙 서버에 실시간 자동 저장 중' : '브라우저 로컬 저장소에 자동 저장 중'}
                 >
                   <Server className="w-3 h-3" />
-                  <span>{isServerConnected ? '서버 지속 저장 활성화' : '서버 연결 중...'}</span>
+                  <span>{isServerConnected ? '서버 지속 저장' : '자동 저장 활성화'}</span>
                   {isSyncing && <RefreshCw className="w-2.5 h-2.5 animate-spin ml-0.5" />}
                 </div>
               </div>

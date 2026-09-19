@@ -34,10 +34,10 @@ export const AdminAuthModal: React.FC<AdminAuthModalProps> = ({
         setPin('');
         onLoginSuccess();
       } else {
-        setErrorMsg('❌ 관리자 비밀번호가 올바르지 않습니다! (초기: 1156)');
+        setErrorMsg('❌ 관리자 비밀번호가 올바르지 않습니다.');
       }
     } catch {
-      setErrorMsg('서버 연결 실패. 다시 시도해주세요.');
+      setErrorMsg('비밀번호 확인 중 오류가 발생했습니다. 다시 시도해주세요.');
     } finally {
       setIsVerifying(false);
     }
@@ -60,7 +60,7 @@ export const AdminAuthModal: React.FC<AdminAuthModalProps> = ({
 
         <h3 className="text-2xl font-black text-white">교사 / 관리자 로그인</h3>
         <p className="text-xs text-emerald-300 font-sans-kr mt-1 mb-4">
-          관리자 비밀번호를 입력하세요 <span className="text-slate-400">(초기: 1156)</span>
+          선생님 전용 관리자 비밀번호를 입력하세요
         </p>
 
         <div className="relative mb-3">
